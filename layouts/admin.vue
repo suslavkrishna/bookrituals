@@ -9,10 +9,13 @@
                         <nuxt-link to="/admin">dashboard</nuxt-link>   
                     </li>
                     <li class="hover:text-orange-400">
-                        <nuxt-link to="/admin/rituals">Rituals</nuxt-link>
+                        <nuxt-link to="/admin/rituals/monthlyrituals">Rituals</nuxt-link>
                     </li>
                     <li class="hover:text-orange-400">
                         <nuxt-link to="/admin/reports">Reports</nuxt-link>
+                    </li>
+                    <li class="hover:text-orange-400">
+                        <nuxt-link to="/admin/events/varahi/addrituals">Events</nuxt-link>
                     </li>
                 </ul>
                 <div>
@@ -46,23 +49,7 @@
         this is footer
     </div>
 </template>
-<script>
 
-/*export default {
-    data() { 
-        return { 
-            isActive: false
-        }; 
-      }, 
-
-      methods: { 
-        toggleClass() { 
-          this.isActive = !this.isActive; 
-          alert('test')
-    } 
-  } 
-}
-</script> */
 
 <script setup>
 const isActive = ref(true)

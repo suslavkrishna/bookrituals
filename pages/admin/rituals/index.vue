@@ -43,8 +43,8 @@
 
 
     definePageMeta({
-        layout: 'admin',
-        middleware: ["auth-admin"]
+        layout: 'admin'
+        //middleware: ["auth-admin"]
     })
 
    

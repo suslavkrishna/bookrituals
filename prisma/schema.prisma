@@ -18,7 +18,6 @@ model ritualdates {
   RitualID     Int
   RitualDate   DateTime @db.Date
   price        Int
-  RitualYear   Int
 }
 
 model rituals {
@@ -26,6 +25,8 @@ model rituals {
   RitualTitle      String @db.VarChar(200)
   RitualCategoryID Int
   RitualTypeID     Int
+  price            Int
+  alldates         String @db.LongText
 }
 
 model ritualtypes {
@@ -57,9 +58,6 @@ model carts {
   signature   String   @db.VarChar(50)
   userid      Int
   cartstatus  Boolean
-  address     String   @db.VarChar(100)
-  city        String   @db.VarChar(50)
-  state       String   @db.VarChar(50)
-  country     String   @db.VarChar(50)
-  pin         String   @db.VarChar(20)
+  address     String?  @db.LongText
+  cartitems   String?  @db.LongText
 }

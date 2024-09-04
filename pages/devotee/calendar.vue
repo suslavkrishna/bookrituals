@@ -1,34 +1,36 @@
 <template>
     <div>
         <div class="w-full ">
-                <div class="grid lg:grid-cols-3 sm:grid-cols-3 md:grid-cols-3 bg-slate-50 text-center">
+                <div class="pt-5 pb-5 grid lg:grid-cols-3 sm:grid-cols-3 md:grid-cols-3 bg-slate-50 text-center">
                     
-                    <div class="text-right"> <p @click="previousmonth()">previous month</p></div>
-                    <div>Month year</div> {{ monthref }} {{ date }}
-                    <div class="text-left"> <p @click="nextmonth()">Next month</p></div> 
+                    <div class="text-right"> <p @click="previousmonth()"><b>previous month</b></p></div>
+                    <div><b>{{ months[monthref] }} {{ year }}</b></div> 
+                    <div class="text-left"> <p @click="nextmonth()"><b>Next month</b></p></div> 
+                    
                 </div>
             
         </div>
         <div class="relative flex w-full">
            
         <table class="w-full">
-  <thead>
+  <thead class="pt-5 pb-5">
     <tr>
-        <th>Sun</th>
-        <th>Mon</th>
-        <th>Tue</th>
-        <th>Wed</th>
-        <th>Thu</th>
-        <th>Fri</th>
-        <th>Sat</th>        
+        <th class="text-center"> <p class="bg-slate-300 pt-5 pb-5">Sun</p></th>
+        <th class="text-center"> <p class="bg-slate-300 pt-5 pb-5">Mon</p></th>
+        <th class="text-center"> <p class="bg-slate-300 pt-5 pb-5">Tue</p></th>
+        <th class="text-center"> <p class="bg-slate-300 pt-5 pb-5">Wed</p></th>
+        <th class="text-center"> <p class="bg-slate-300 pt-5 pb-5">Thu</p></th>
+        <th class="text-center"> <p class="bg-slate-300 pt-5 pb-5">Fri</p></th>
+        <th class="text-center"> <p class="bg-slate-300 pt-5 pb-5">Sat</p></th>        
     </tr>    
   </thead>
   <tbody>
       <tr v-for="rowIdx in Math.ceil(calendardatesref.length / 7)">
-    <td class="pt-5 pb-5 bg-slate-50 text-center" v-for="item in calendardatesref.slice(7 * (rowIdx - 1), 7 * rowIdx)">
-        {{ item  }}
-    </td>
-    </tr>
+        <td class="text-center" v-for="item in calendardatesref.slice(7 * (rowIdx - 1), 7 * rowIdx)">
+            <p class="bg-slate-50 pt-5 pb-5">{{ item  }}</p>
+        </td>
+      </tr>
+      
   </tbody>
 </table>
 
