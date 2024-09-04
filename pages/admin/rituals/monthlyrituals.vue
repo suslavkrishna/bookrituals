@@ -15,12 +15,11 @@
         <div class="bg-slate-100">
             Add / Edit Ritual Date :  <b> {{ displayRitualName }} </b>
         </div>
-        <div>
+        <div v-if="form.RitualID!=''">
             <form @submit.prevent="postritualsdates(ritualid)" method="post">
                Date : <input v-model="form.RitualDate" type="text" id="ritual_date" 
-               pattern="(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0,1,2])\/(19|20)\d{2}" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                {{ RitualDateRef }}
-                
                Price : <input v-model="form.RitualPrice" type="number" id="ritual_price" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                {{ RitualPriceRef }}
                 <br/>
@@ -97,9 +96,22 @@
         return await $fetch("/api/ritualdates/ritualdates",{
             method: 'POST',
             body: {
-                RitualID: ritualid.value,
-                RitualDate : '2024-07-31',
-                RitualPrice : RitualPriceRef.value
+                RitualID: form.RitualID,
+                RitualDate : form.RitualDate,
+                RitualPrice : form.RitualPrice
+            }
+        })
+    }   
+
+    async function updateritualdate()
+    {
+        console.log(ritualid.value,RitualDateRef.value , RitualPriceRef.value)
+        return await $fetch("/api/ritualdates/updateritualdates",{
+            method: 'POST',
+            body: {
+                RitualDateID: form.RitualDateID,
+                RitualDate : form.RitualDate,
+                RitualPrice : form.RitualPrice
             }
         })
     }   
@@ -113,8 +125,8 @@
 
     async function assign_id(id,ritualname)
     {
-        console.log(id)
-        console.log(getritualdates(id))
+       // console.log(id)
+       // console.log(getritualdates(id))
         ritualid.value = id
         ritualdates.value = await getritualdates(id)
         displayRitualName.value = ritualname
@@ -144,13 +156,17 @@
         console.log("form submit="+id)
         if(form.RitualDateID == "")
         {
-            console.log("insert ritual date")
+           await insertritualdate()
         }
         else
         {
-            console.log("update date")
+           await updateritualdate()
         }
-        //insertritualdate()
+        
+        form.RitualDateID = ""
+        form.RitualDate = ""
+        form.RitualPrice = ""
+       
         ritualdates.value = await getritualdates(id)
         console.log(ritualdates.value)
     }

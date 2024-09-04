@@ -10,11 +10,23 @@
             
         </div>
         <div>
-            <div v-for="item in calendardatesref">
+            <div v-for="item in calendardateswitheventsref">
                 <div class="p-5">
-                    {{  new Date(year,monthref,item).toDateString() }} 
-                    {{  geteventdate(year,monthref+1,item) }}
-                    {{ getval() }}
+                    {{ new Date(year,monthref,item.monthdate).toDateString() }}
+                   
+                     <p v-for="ritualobj in item.eventdate">
+                        {{ ritualobj.RitualTitle }}
+                     </p>
+                </div>
+                <div>
+                    <hr>
+                </div>
+            </div>
+        </div> 
+        <div>
+            <div v-for="(item,index) in calendardateswitheventsref.monthdate">
+                <div class="p-5">
+                    {{ index }}   {{  new Date(year,monthref,item).toDateString() }} 
                 </div>
                 <div>
                     <hr>
@@ -29,13 +41,12 @@
            </div>
         </div>
 </div>
-
-
-
-    
+{{ calendardateswitheventsref }}
 </template>
 
 <script setup>
+
+
 async function getritualdates()
 {
         return await $fetch("/api/ritualdates/calendarrituals");
@@ -80,6 +91,8 @@ let month = date.getMonth();
 const monthref = ref(month)
 const yearref= ref(2024)
 const calendardatesref= ref([])
+
+const calendardateswitheventsref = reactive([])
     const weekday = [
         "Sun",
         "Mon",
@@ -136,13 +149,13 @@ function previousmonth()
         monthref.value = 0;
     }
     date = new Date(2024,monthref.value,2);
-year = date.getFullYear();
- month = date.getMonth();
+    year = date.getFullYear();
+    month = date.getMonth();
     loadmonth(2024,month)
     
 }
 
-function loadmonth(year,month)
+async function loadmonth(year,month)
 {
     let name = months[month];
 
@@ -163,21 +176,79 @@ let lit = [];
 let j=0;
 
 
-// Loop to add the dates of the current month
-for (let i = 1; i <= lastdate; i++) {
-
-    // Check if the current date is today
-    let isToday = i === date.getDate()
+    // Loop to add the dates of the current month
+    for (let i = 1; i <= lastdate; i++) 
+    {
+       // Check if the current date is today
+        let isToday = i === date.getDate()
         && month === new Date().getMonth()
         && year === new Date().getFullYear()
         ? "active"
         : "";
-    lit[j] = `${i}`;
-    j++;
-}
+        lit[j] = `${i}`;
+        j++;
+    }
+
+    calendardatesref.value = lit
+    console.log(lit)
+    console.log(lit.length)
+    //calendardateswitheventsref.monthdate = lit
+    //calendardateswitheventsref[1].eventdate =11111;
+    // ritualdatesref.value
+     
+     const events  =await getritualdates()
+     
+     console.log(events)
 
 
-calendardatesref.value = lit
+     let prefixmonth ='0';
+     let dayprefix ='0';
+     let datetocheck 
+     const monthtocompare = monthref.value +1;
+     let objdate = null;
+     let eventobject = null;
+     calendardateswitheventsref.splice(0)
+     for(var i=0;i<lit.length;i++)
+     {
+
+        if(monthtocompare <10)
+        {
+            prefixmonth = "0"+ monthtocompare.toString()
+        }
+        else
+        {
+            prefixmonth = monthtocompare.toString()
+        }
+        if(lit[i] < 10)
+        {
+            dayprefix = "0" + lit[i]
+        }
+        else
+        {
+            dayprefix = lit[i]
+        }
+
+        //console.log(prefixmonth)
+        datetocheck = '2024-'+prefixmonth+'-'+dayprefix+'T00:00:00.000Z'
+        //console.log(datetocheck)
+        const found = events.find((element) => element.RitualDate == datetocheck);
+        let results= events.filter(x => x.RitualDate == datetocheck);
+        console.log("this is results:",results)
+        if(results.length >0)
+        {
+            console.log(found) 
+           // console.log(prefixmonth ,lit[i], datetocheck)    
+
+           objdate = {monthdate:lit[i],eventdate: results}
+        } 
+        else
+        {
+            objdate = {monthdate:lit[i],eventdate:""}
+        }
+       
+        //objdate = {monthdate:lit[i],eventdate:i}
+        calendardateswitheventsref.push(objdate)
+    }
 }
 
 
