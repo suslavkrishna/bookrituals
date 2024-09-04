@@ -1,0 +1,38 @@
+Modifying JSON Data
+
+As you know, reading data is really only half the battle. To really get the value out of being able to store JSON data within a relational database you also need to be able to modify, or write, it. Luckily, MariaDB provides a bunch of functionality for this as well.
+Inserting Fields
+
+The JSON_INSERT() function returns JSON data created by inserting one or more path/value pairs to JSON data.
+
+UPDATE locations
+SET attr = JSON_INSERT(attr,'$.nickname','The Bean')
+WHERE id = 8;
+
+Inserting Arrays
+
+You can also create new arrays using the JSON_ARRAY() function. Then, within the JSON_INSERT() function, the new array can be inserted into the specified JSON data (in this case the attr field).
+
+UPDATE locations
+    SET attr = JSON_INSERT(attr,
+                             '$.foodTypes',
+        JSON_ARRAY('Asian', 'Mexican'))
+WHERE id = 1;
+
+Adding Array Elements
+
+Using the JSON_ARRAY_APPEND() function you can modify an existing array by adding one or more elements.
+
+UPDATE locations
+    SET attr = JSON_ARRAY_APPEND(attr,
+                '$.foodTypes', 'German’)
+WHERE id = 1;
+
+Removing Array Elements
+
+The JSON_REMOVE() can be used to remove an array element, specified by index.
+
+UPDATE locations
+    SET attr = JSON_REMOVE(attr,
+                '$.foodTypes[2]')
+WHERE id = 1;

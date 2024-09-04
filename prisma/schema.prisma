@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ritualcategories {
+  RitualCategoryID Int    @id @default(autoincrement())
+  RitualCategory   String @db.VarChar(100)
+  ParentID         Int
+}
+
+model ritualdates {
+  RitualDateID Int      @id @default(autoincrement())
+  RitualID     Int
+  RitualDate   DateTime @db.Date
+  price        Int
+  RitualYear   Int
+}
+
+model rituals {
+  RitualID         Int    @id @default(autoincrement())
+  RitualTitle      String @db.VarChar(200)
+  RitualCategoryID Int
+  RitualTypeID     Int
+}
+
+model ritualtypes {
+  RitualTypeID Int    @id @default(autoincrement())
+  RitualType   String @db.VarChar(200)
+}
+
+model users {
+  userid   Int    @id @default(autoincrement())
+  username String @db.VarChar(100)
+  password String @db.VarChar(100)
+  roleid   Int
+}
+
+model cartitems {
+  cartitemid Int      @id @default(autoincrement())
+  cartid     Int
+  itemid     Int
+  itemamount Int
+  itemdate   DateTime @db.Date
+}
+
+model carts {
+  cartid      Int      @id @default(autoincrement())
+  orderid     String   @db.VarChar(50)
+  totalamount Int
+  cartdate    DateTime @db.DateTime(0)
+  paymentid   String   @db.VarChar(50)
+  signature   String   @db.VarChar(50)
+  userid      Int
+  cartstatus  Boolean
+  address     String   @db.VarChar(100)
+  city        String   @db.VarChar(50)
+  state       String   @db.VarChar(50)
+  country     String   @db.VarChar(50)
+  pin         String   @db.VarChar(20)
+}

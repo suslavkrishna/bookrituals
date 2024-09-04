@@ -1,0 +1,37 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@formkit/nuxt": "^1.6.5",
+    "@pinia/nuxt": "^0.5.2",
+    "@prisma/nuxt": "^0.0.31",
+    "@vee-validate/nuxt": "^4.13.2",
+    "@vuepic/vue-datepicker": "^9.0.2",
+    "@vueuse/core": "^10.11.1",
+    "bcrypt": "^5.1.1",
+    "nuxt": "^3.12.4",
+    "nuxt-auth-utils": "^0.3.2",
+    "oslo": "^1.2.1",
+    "pinia": "^2.2.0",
+    "razorpay": "^2.9.4",
+    "uuid": "^10.0.0",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "@prisma/client": "^5.17.0",
+    "@types/bcrypt": "^5.0.2",
+    "prisma": "^5.17.0"
+  },
+  "overrides": {
+    "vue": "latest"
+  }
+}
